@@ -19,7 +19,7 @@ function setDirection(prevScrollPos, currentScrollPos) {
   }
 }
 
-function setTimePeriod(prevScrollPos, currentScrollPos) {
+function setScrollPeriod(prevScrollPos, currentScrollPos) {
   setTimeout(function() {
     setDirection(prevScrollPos, currentScrollPos);
   }, 200);
@@ -29,5 +29,5 @@ elevator.addEventListener("scroll", e => {
   let previewScrollPos = currentScrollPos;
   currentScrollPos = Math.round(e.target.scrollTop);
 
-  setTimePeriod(previewScrollPos, currentScrollPos);
+  setScrollPeriod(previewScrollPos, currentScrollPos);
 });
