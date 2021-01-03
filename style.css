@@ -10,6 +10,7 @@ body {
   max-height: 200px;
   overflow-y: scroll;
   border: 2px solid black;
+  position: relative;
 }
 
 .floor {
