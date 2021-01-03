@@ -7,15 +7,14 @@ const directions = {
 
 let currentScrollPos = 0;
 
-// DOM elemenst
-const directionElem = document.querySelector(".direction");
+const directionHtmlElem = document.querySelector(".direction");
 const elevator = document.querySelector(".elevator");
 
 function setDirection(prevScrollPos, currentScrollPos) {
   if (prevScrollPos < currentScrollPos) {
-    directionElem.innerText = `Kierunek: ${directions.bottom}`;
+    directionHtmlElem.innerText = `Kierunek: ${directions.bottom}`;
   } else if (prevScrollPos > currentScrollPos) {
-    directionElem.innerText = `Kierunek: ${directions.top}`;
+    directionHtmlElem.innerText = `Kierunek: ${directions.top}`;
   }
 }
 
