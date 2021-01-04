@@ -11,41 +11,53 @@ const directionHtmlElem = document.querySelector(".direction");
 const elevator = document.querySelector(".elevator");
 const floors = document.querySelectorAll(".floor");
 
-const arrayFloors = Array.from(floors).map(e => {
+const configFloor = e => {
   return {
-    top: e.offsetTop,
-    bottom: e.offsetTop + e.offsetHeight,
-    title: e.textContent
+    topEdge: e.offsetTop,
+    bottomEdge: e.offsetTop + e.scrollHeight,
+    elemHeight: e.scrollHeight,
+    elemTitle: e.textContent.trim(),
+    firstElemTitle: floors[0].innerText.trim(),
+    lastElemTitle: floors[floors.length - 1].innerText.trim()
   };
-});
+};
 
-console.log(arrayFloors);
+//-------------------------------------
 
 function setDirection(prevScrollPos, currentScrollPos) {
-  if (prevScrollPos < currentScrollPos) {
-    directionHtmlElem.innerText = `Kierunek: ${directions.bottom}`;
-  } else if (prevScrollPos > currentScrollPos) {
-    directionHtmlElem.innerText = `Kierunek: ${directions.top}`;
-  }
+  const title = setFloorName(currentScrollPos);
 
-  setFloorName(currentScrollPos);
+  if (prevScrollPos < currentScrollPos) {
+    directionHtmlElem.innerText = `Kierunek: ${directions.bottom} / ${title}`;
+  } else if (prevScrollPos > currentScrollPos) {
+    directionHtmlElem.innerText = `Kierunek: ${directions.top} / ${title}`;
+  }
 }
+
+//-------------------------------------
 
 function setFloorName(currentScrollPos) {
-  floors.forEach((e, i) => {
-    let top = e.offsetTop,
-      bottom = e.offsetTop + e.scrollHeight,
-      title = e.textContent;
+  let result = "";
 
-    if (currentScrollPos > top && currentScrollPos < bottom) {
-      // console.log("top", top);
-      // console.log("height", e.offsetHeight);
-      // console.log("currentScrollPos", currentScrollPos);
-      // console.log("bottom", bottom);
-      console.log(title);
+  floors.forEach(function(e) {
+    const config = configFloor(e);
+
+    if (
+      currentScrollPos >= config.topEdge &&
+      currentScrollPos <= config.bottomEdge
+    ) {
+      result = config.elemTitle;
+    } else if (currentScrollPos < config.elemHeight) {
+      result = config.firstElemTitle;
+    } else if (currentScrollPos > elevator.scrollHeight - 250) {
+      result = config.lastElemTitle;
     }
   });
+
+  return result;
 }
+
+//-------------------------------------
 
 elevator.addEventListener("scroll", e => {
   let prevScrollPos = currentScrollPos;
