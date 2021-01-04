@@ -13,16 +13,45 @@ const floors = document.querySelectorAll(".floor");
 
 const configFloor = e => {
   return {
+    floors: document.querySelectorAll(".floor"),
     topEdge: e.offsetTop,
     bottomEdge: e.offsetTop + e.scrollHeight,
-    elemHeight: e.scrollHeight,
-    elemTitle: e.textContent.trim(),
-    firstElemTitle: floors[0].innerText.trim(),
-    lastElemTitle: floors[floors.length - 1].innerText.trim()
+    height: e.scrollHeight,
+    title: e.textContent.trim(),
+    firstElemTitle() {
+      return this.floors[0].innerText.trim();
+    },
+    lastElemTitle() {
+      return this.floors[floors.length - 1].innerText.trim();
+    }
   };
 };
 
-//-------------------------------------
+/**
+ * functions
+ */
+
+function setFloorName(currentScrollPos) {
+  let result = "";
+
+  [...document.querySelectorAll(".floor")].forEach(function(floor) {
+    const config = configFloor(floor);
+
+    let diffrenceElevatorAndFloorHeight =
+      elevator.clientHeight - floor.clientHeight;
+    let scrollTop = currentScrollPos + diffrenceElevatorAndFloorHeight;
+
+    if (scrollTop >= config.topEdge && scrollTop <= config.bottomEdge) {
+      result = config.title;
+    } else if (scrollTop < config.height) {
+      result = config.firstElemTitle();
+    } else if (scrollTop > elevator.scrollHeight - 250) {
+      result = config.lastElemTitle();
+    }
+  });
+
+  return result;
+}
 
 function setDirection(prevScrollPos, currentScrollPos) {
   const title = setFloorName(currentScrollPos);
@@ -34,30 +63,9 @@ function setDirection(prevScrollPos, currentScrollPos) {
   }
 }
 
-//-------------------------------------
-
-function setFloorName(currentScrollPos) {
-  let result = "";
-
-  floors.forEach(function(e) {
-    const config = configFloor(e);
-
-    if (
-      currentScrollPos >= config.topEdge &&
-      currentScrollPos <= config.bottomEdge
-    ) {
-      result = config.elemTitle;
-    } else if (currentScrollPos < config.elemHeight) {
-      result = config.firstElemTitle;
-    } else if (currentScrollPos > elevator.scrollHeight - 250) {
-      result = config.lastElemTitle;
-    }
-  });
-
-  return result;
-}
-
-//-------------------------------------
+/**
+ * Event
+ */
 
 elevator.addEventListener("scroll", e => {
   let prevScrollPos = currentScrollPos;
