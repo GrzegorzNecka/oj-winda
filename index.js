@@ -19,16 +19,20 @@ function setFloorName(currentScrollPos) {
   let result = "";
 
   [...floors].forEach(function(floor) {
+    let sectionScroll = floor.offsetTop,
+      sectionHeigth = floor.scrollHeight,
+      distance = sectionScroll - currentScrollPos,
+      percent = (-distance * 100) / currentScrollPos;
 
-        let sectionScroll = floor.offsetTop,
-        sectionHeigth = floor.scrollHeight,
-        distance = sectionScroll - currentScrollPos,
-        procent = (-distance * 100) / currentScrollPos;
+    console.log(
+      `distance = sectionScroll ${sectionScroll} - currentScrollPos ${currentScrollPos} `
+    );
+    // console.log(`distance ${distance}`);
+    // console.log(`${percent}%`);
 
-      if (procent >= -10 && procent <= 90) {
-          result = floor.textContent.trim()
-      }
-  
+    if (percent >= -10 && percent <= 100) {
+      result = floor.textContent.trim();
+    }
   });
 
   return result;
