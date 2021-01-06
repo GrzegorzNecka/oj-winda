@@ -6,38 +6,36 @@ const directions = {
 };
 
 let currentScrollPos = 0;
-let cash = false;
+let cond = false;
 const directionHtmlElem = document.querySelector(".direction");
 const elevator = document.querySelector(".elevator");
 const floors = document.querySelectorAll(".floor");
 
 function setFloorTitle(scrollPos) {
   let result = "";
-  cash = true;
+  cond = true;
 
   for (let i = 0; i < floors.length; i++) {
-    
-    const floor = {
-      elem: floors[i],
-      lastElem: floors[floors.length - 1],
-      height: floors[i].clientHeight,
-      top: floors[i].offsetTop
-    };
-
-    const elev = {
-      totalHeight: elevator.scrollHeight,
-      height: elevator.clientHeight
-    };
+    const { length, [i]: floor } = floors;
+    const {
+      clientHeight: floor_height,
+      offsetTop: floor_top,
+      textContent: floor_text
+    } = floor;
+    const {
+      scrollHeight: elev_total_height,
+      clientHeight: elev_height
+    } = elevator;
 
     const setTitle = param => {
       result = param.trim();
-      cash = false;
+      cond = false;
     };
 
-    if (scrollPos - floor.height <= floor.top && cash) {
-      setTitle(floor.elem.textContent);
-    } else if (scrollPos >= elev.totalHeight - elev.height && cash) {
-      setTitle(floor.lastElem.textContent);
+    if (scrollPos - floor_height <= floor_top && cond) {
+      setTitle(floor_text);
+    } else if (scrollPos >= elev_total_height - elev_height && cond) {
+      setTitle(floors[length - 1].textContent);
     }
   }
 
