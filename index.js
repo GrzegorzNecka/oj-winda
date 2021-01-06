@@ -6,14 +6,14 @@ const directions = {
 };
 
 let currentScrollPos = 0;
-let cond = false;
+let check = false;
 const directionHtmlElem = document.querySelector(".direction");
 const elevator = document.querySelector(".elevator");
 const floors = document.querySelectorAll(".floor");
 
 function setFloorTitle(scrollPos) {
   let result = "";
-  cond = true;
+  check = true;
 
   for (let i = 0; i < floors.length; i++) {
     const { length, [i]: floor } = floors;
@@ -25,12 +25,12 @@ function setFloorTitle(scrollPos) {
 
     const setTitle = param => {
       result = param.textContent.trim();
-      cond = false;
+      check = false;
     };
 
-    if (scrollPos - floor_height <= floor_top && cond) {
+    if (scrollPos - floor_height <= floor_top && check) {
       setTitle(floor);
-    } else if (scrollPos >= elev_total_height - elev_height && cond) {
+    } else if (scrollPos >= elev_total_height - elev_height && check) {
       setTitle(floors[length - 1]);
     }
   }
