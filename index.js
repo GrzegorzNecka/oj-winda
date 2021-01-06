@@ -15,14 +15,14 @@ const floors = document.querySelectorAll(".floor");
  * functions
  */
 
-function setFloorName(currentScrollPos) {
+function setFloorTitle(currentScrollPos) {
   let result = "";
   casheForsetFloorName = true;
   floors.forEach(function(floor) {
-    if (currentScrollPos < floor.offsetTop) {
+    if (currentScrollPos <= floor.offsetTop) {
       if (casheForsetFloorName) {
         console.log(floor.textContent, floor.offsetTop);
-        result = floor.textContent;
+        result = floor.textContent.trim();
         casheForsetFloorName = false;
       }
     }
@@ -32,7 +32,7 @@ function setFloorName(currentScrollPos) {
 }
 
 function setDirection(prevScrollPos, currentScrollPos) {
-  const title = setFloorName(currentScrollPos);
+  const title = setFloorTitle(currentScrollPos);
 
   if (prevScrollPos < currentScrollPos) {
     directionHtmlElem.innerText = `Kierunek: ${directions.bottom} / ${title}`;
