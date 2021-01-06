@@ -6,7 +6,7 @@ const directions = {
 };
 
 let currentScrollPos = 0;
-let casheForsetFloorName = false;
+let casheOfTitleFloor = false;
 const directionHtmlElem = document.querySelector(".direction");
 const elevator = document.querySelector(".elevator");
 const floors = document.querySelectorAll(".floor");
@@ -17,16 +17,25 @@ const floors = document.querySelectorAll(".floor");
 
 function setFloorTitle(currentScrollPos) {
   let result = "";
-  casheForsetFloorName = true;
-  floors.forEach(function(floor) {
-    if (currentScrollPos <= floor.offsetTop) {
-      if (casheForsetFloorName) {
-        console.log(floor.textContent, floor.offsetTop);
-        result = floor.textContent.trim();
-        casheForsetFloorName = false;
-      }
+  casheOfTitleFloor = true;
+
+  for (let i = 0; i < floors.length; i++) {
+    let floor = floors[i];
+
+    if (
+      currentScrollPos - floor.clientHeight <= floor.offsetTop &&
+      casheOfTitleFloor
+    ) {
+      result = floor.textContent.trim();
+      casheOfTitleFloor = false;
+    } else if (
+      currentScrollPos >= elevator.scrollHeight - elevator.clientHeight &&
+      casheOfTitleFloor
+    ) {
+      result = floors[floors.length - 1].textContent.trim();
+      casheOfTitleFloor = false;
     }
-  });
+  }
 
   return result;
 }
