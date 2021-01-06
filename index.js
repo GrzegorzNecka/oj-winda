@@ -11,10 +11,6 @@ const directionHtmlElem = document.querySelector(".direction");
 const elevator = document.querySelector(".elevator");
 const floors = document.querySelectorAll(".floor");
 
-/**
- * functions
- */
-
 function setFloorTitle(currentScrollPos) {
   let result = "";
   casheOfTitleFloor = true;
@@ -49,10 +45,6 @@ function setDirection(prevScrollPos, currentScrollPos) {
     directionHtmlElem.innerText = `Kierunek: ${directions.top} / ${title}`;
   }
 }
-
-/**
- * Event
- */
 
 elevator.addEventListener("scroll", e => {
   let prevScrollPos = currentScrollPos;
