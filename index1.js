@@ -6,49 +6,42 @@ const directions = {
 };
 
 let currentScrollPos = 0;
-
+let casheOfTitleFloor = false;
 const directionHtmlElem = document.querySelector(".direction");
 const elevator = document.querySelector(".elevator");
 const floors = document.querySelectorAll(".floor");
-
-const configFloor = e => {
-  return {
-    topEdge: e.offsetTop,
-    bottomEdge: e.offsetTop + e.scrollHeight,
-    elemHeight: e.scrollHeight,
-    elemTitle: e.textContent.trim(),
-    firstElemTitle: floors[0].innerText.trim(),
-    lastElemTitle: floors[floors.length - 1].innerText.trim()
-  };
-};
 
 /**
  * functions
  */
 
-function setFloorName(currentScrollPos) {
+function setFloorTitle(currentScrollPos) {
   let result = "";
+  casheOfTitleFloor = true;
 
-  floors.forEach(function(e) {
-    const config = configFloor(e);
+  for (let i = 0; i < floors.length; i++) {
+    let floor = floors[i];
 
     if (
-      currentScrollPos >= config.topEdge &&
-      currentScrollPos <= config.bottomEdge
+      currentScrollPos - floor.clientHeight <= floor.offsetTop &&
+      casheOfTitleFloor
     ) {
-      result = config.elemTitle;
-    } else if (currentScrollPos < config.elemHeight) {
-      result = config.firstElemTitle;
-    } else if (currentScrollPos > elevator.scrollHeight - 250) {
-      result = config.lastElemTitle;
+      result = floor.textContent.trim();
+      casheOfTitleFloor = false;
+    } else if (
+      currentScrollPos >= elevator.scrollHeight - elevator.clientHeight &&
+      casheOfTitleFloor
+    ) {
+      result = floors[floors.length - 1].textContent.trim();
+      casheOfTitleFloor = false;
     }
-  });
+  }
 
   return result;
 }
 
 function setDirection(prevScrollPos, currentScrollPos) {
-  const title = setFloorName(currentScrollPos);
+  const title = setFloorTitle(currentScrollPos);
 
   if (prevScrollPos < currentScrollPos) {
     directionHtmlElem.innerText = `Kierunek: ${directions.bottom} / ${title}`;
