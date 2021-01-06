@@ -16,7 +16,10 @@ function setFloorTitle(currentScrollPos) {
   casheOfTitleFloor = true;
 
   for (let i = 0; i < floors.length; i++) {
-    let floor = floors[i];
+   const floor = floors[i];
+
+    
+
 
     if (
       currentScrollPos - floor.clientHeight <= floor.offsetTop &&
