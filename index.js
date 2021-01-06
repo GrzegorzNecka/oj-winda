@@ -6,7 +6,7 @@ const directions = {
 };
 
 let currentScrollPos = 0;
-
+let casheForsetFloorName = false;
 const directionHtmlElem = document.querySelector(".direction");
 const elevator = document.querySelector(".elevator");
 const floors = document.querySelectorAll(".floor");
@@ -17,21 +17,14 @@ const floors = document.querySelectorAll(".floor");
 
 function setFloorName(currentScrollPos) {
   let result = "";
-
-  [...floors].forEach(function(floor) {
-    let sectionScroll = floor.offsetTop,
-      sectionHeigth = floor.scrollHeight,
-      distance = sectionScroll - currentScrollPos,
-      percent = (-distance * 100) / currentScrollPos;
-
-    console.log(
-      `distance = sectionScroll ${sectionScroll} - currentScrollPos ${currentScrollPos} `
-    );
-    // console.log(`distance ${distance}`);
-    // console.log(`${percent}%`);
-
-    if (percent >= -10 && percent <= 100) {
-      result = floor.textContent.trim();
+  casheForsetFloorName = true;
+  floors.forEach(function(floor) {
+    if (currentScrollPos < floor.offsetTop) {
+      if (casheForsetFloorName) {
+        console.log(floor.textContent, floor.offsetTop);
+        result = floor.textContent;
+        casheForsetFloorName = false;
+      }
     }
   });
 
