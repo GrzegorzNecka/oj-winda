@@ -6,33 +6,38 @@ const directions = {
 };
 
 let currentScrollPos = 0;
-let casheOfTitleFloor = false;
+let cash = false;
 const directionHtmlElem = document.querySelector(".direction");
 const elevator = document.querySelector(".elevator");
 const floors = document.querySelectorAll(".floor");
 
-function setFloorTitle(currentScrollPos) {
+function setFloorTitle(scrollPos) {
   let result = "";
-  casheOfTitleFloor = true;
+  cash = true;
 
   for (let i = 0; i < floors.length; i++) {
-   const floor = floors[i];
-
     
+    const floor = {
+      elem: floors[i],
+      lastElem : floors[floors.length - 1],
+      height: floors[i].clientHeight,
+      top: floors[i].offsetTop,
+    };
 
+    const elev = {
+      totalHeight: elevator.scrollHeight,
+      height: elevator.clientHeight
+    };
 
-    if (
-      currentScrollPos - floor.clientHeight <= floor.offsetTop &&
-      casheOfTitleFloor
-    ) {
-      result = floor.textContent.trim();
-      casheOfTitleFloor = false;
-    } else if (
-      currentScrollPos >= elevator.scrollHeight - elevator.clientHeight &&
-      casheOfTitleFloor
-    ) {
-      result = floors[floors.length - 1].textContent.trim();
-      casheOfTitleFloor = false;
+    const setTitle = param => {
+      result = param.trim();
+      cash = false;
+    };
+
+    if (scrollPos - floor.height <= floor.top && cash) {
+      setTitle(floor.elem.textContent);
+    } else if (scrollPos >= elev.totalHeight - elev.height && cash) {
+      setTitle(floor.lastElem.textContent);
     }
   }
 
