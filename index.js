@@ -17,25 +17,21 @@ function setFloorTitle(scrollPos) {
 
   for (let i = 0; i < floors.length; i++) {
     const { length, [i]: floor } = floors;
-    const {
-      clientHeight: floor_height,
-      offsetTop: floor_top,
-      textContent: floor_text
-    } = floor;
+    const { clientHeight: floor_height, offsetTop: floor_top } = floor;
     const {
       scrollHeight: elev_total_height,
       clientHeight: elev_height
     } = elevator;
 
     const setTitle = param => {
-      result = param.trim();
+      result = param.textContent.trim();
       cond = false;
     };
 
     if (scrollPos - floor_height <= floor_top && cond) {
-      setTitle(floor_text);
+      setTitle(floor);
     } else if (scrollPos >= elev_total_height - elev_height && cond) {
-      setTitle(floors[length - 1].textContent);
+      setTitle(floors[length - 1]);
     }
   }
 
