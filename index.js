@@ -19,9 +19,9 @@ function setFloorTitle(scrollPos) {
     
     const floor = {
       elem: floors[i],
-      lastElem : floors[floors.length - 1],
+      lastElem: floors[floors.length - 1],
       height: floors[i].clientHeight,
-      top: floors[i].offsetTop,
+      top: floors[i].offsetTop
     };
 
     const elev = {
