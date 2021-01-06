@@ -23,8 +23,8 @@ function setFloorTitle(scrollPos) {
       clientHeight: elev_height
     } = elevator;
 
-    const setTitle = param => {
-      result = param.textContent.trim();
+    const setTitle = elem => {
+      result = elem.textContent.trim();
       check = false;
     };
 
