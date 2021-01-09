@@ -42,6 +42,7 @@ function setFloorTitle(scrollPos) {
 }
 
 function setDirection(prevScrollPos, currentScrollPos) {
+  
   const title = setFloorTitle(currentScrollPos);
 
   if (prevScrollPos < currentScrollPos) {
