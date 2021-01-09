@@ -11,16 +11,25 @@ const directionHtmlElem = document.querySelector(".direction");
 const elevator = document.querySelector(".elevator");
 const floors = document.querySelectorAll(".floor");
 
+function setDirection(prevScrollPos, currentScrollPos) {
+  const title = setFloorTitle(currentScrollPos);
+
+  if (prevScrollPos < currentScrollPos) {
+    directionHtmlElem.innerText = `Kierunek: ${directions.bottom} / ${title}`;
+  } else if (prevScrollPos > currentScrollPos) {
+    directionHtmlElem.innerText = `Kierunek: ${directions.top} / ${title}`;
+  }
+}
+
 function setFloorTitle(scrollPos) {
   let result = "";
   check = true;
 
   for (let i = 0; i < floors.length; i++) {
-    
     const { length, [i]: floor } = floors;
 
     const { clientHeight: floor_height, offsetTop: floor_top } = floor;
-    
+
     const {
       scrollHeight: elev_total_height,
       clientHeight: elev_height
@@ -39,17 +48,6 @@ function setFloorTitle(scrollPos) {
   }
 
   return result;
-}
-
-function setDirection(prevScrollPos, currentScrollPos) {
-  
-  const title = setFloorTitle(currentScrollPos);
-
-  if (prevScrollPos < currentScrollPos) {
-    directionHtmlElem.innerText = `Kierunek: ${directions.bottom} / ${title}`;
-  } else if (prevScrollPos > currentScrollPos) {
-    directionHtmlElem.innerText = `Kierunek: ${directions.top} / ${title}`;
-  }
 }
 
 elevator.addEventListener("scroll", e => {
