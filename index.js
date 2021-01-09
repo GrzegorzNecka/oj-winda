@@ -16,8 +16,11 @@ function setFloorTitle(scrollPos) {
   check = true;
 
   for (let i = 0; i < floors.length; i++) {
+    
     const { length, [i]: floor } = floors;
+
     const { clientHeight: floor_height, offsetTop: floor_top } = floor;
+    
     const {
       scrollHeight: elev_total_height,
       clientHeight: elev_height
